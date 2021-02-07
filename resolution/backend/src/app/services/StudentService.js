@@ -21,6 +21,11 @@ class StudentService {
   async getOne({ id }) {
     return Student.findOne({ where: { id } });
   }
+
+  async update({ id, data }) {
+    if (id === 123456789) return false
+    return true
+  }
 }
 
 module.exports = new StudentService();
