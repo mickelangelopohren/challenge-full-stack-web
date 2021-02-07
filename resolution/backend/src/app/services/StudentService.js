@@ -1,5 +1,5 @@
 const { Student } = require('../models');
-const { ConflictError } = require('../../errors');
+const { BusinessLogicError, ConflictError } = require('../../errors');
 
 class StudentService {
   async create({ data }) {
@@ -8,7 +8,7 @@ class StudentService {
     });
 
     if (alreadyUsedRegistrationCode) {
-      throw new ConflictError('Duplicate entry `registrationCode`');
+      throw new ConflictError('Duplicate entry `academicRegister`');
     }
 
     return Student.create(data);
@@ -23,8 +23,14 @@ class StudentService {
   }
 
   async update({ id, data }) {
-    if (id === 123456789) return false
-    return true
+    const update = await Student.findOne({ where: { id } })
+      .then(async (student) => {
+        if(student) {
+          return student.update(data)
+        }
+      });
+
+    return !!update;
   }
 }
 

@@ -1,6 +1,6 @@
 const { sequelize } = require('../../src/app/models');
 const StudentService = require('../../src/app/services/StudentService');
-const { ConflictError } = require('../../src/errors');
+const { BusinessLogicError, ConflictError } = require('../../src/errors');
 
 const getRandomInt = (min = 111111111, max = 999999999 ) => {
   min = Math.ceil(min);
@@ -45,7 +45,7 @@ describe('Students service', () => {
     const createStudent2 = StudentService.create({ data: data2 });
 
     await expect(createStudent2).rejects
-      .toThrowError(new ConflictError('Duplicate entry `registrationCode`'));
+      .toThrowError(new ConflictError('Duplicate entry `academicRegister`'));
   });
 
   it('Should retrieve all created students', async () => {
@@ -89,7 +89,7 @@ describe('Students service', () => {
 
   it('Should update a student', async () => {
     const data = dataMock();
-    const updateData = dataMock({ name: 'New Name', email: 'new@email.com' });
+    const updateData = { name: 'New Name', email: 'new@email.com'  };
 
     const { id } = await StudentService.create({ data });
 
@@ -103,9 +103,9 @@ describe('Students service', () => {
 
   it('Should return an error when update a inexistent student', async () => {
     const id = 123456789;
-    const updateData = dataMock({ name: 'New Name', email: 'new@email.com' });
+    const data = { name: 'New Name', email: 'new@email.com' };
 
-    const updatedStudent = await StudentService.update({ id, data: updateData });
+    const updatedStudent = await StudentService.update({ id, data });
 
     expect(updatedStudent).toEqual(false);
   });
