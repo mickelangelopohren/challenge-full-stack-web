@@ -13,6 +13,23 @@ class StudentService {
 
     return Student.create(data);
   }
+
+  async getAll() {
+    return [
+      {
+        name: 'Paula Souza',
+        email: 'paula.souza@teste.com',
+        academicRegister: 123456,
+        document: '49116966058',
+      },
+      {
+        name: 'Paula Souza',
+        email: 'paula.souza@teste.com',
+        academicRegister: 654321,
+        document: '49116966058',
+      }
+    ]
+  }
 }
 
 module.exports = new StudentService();

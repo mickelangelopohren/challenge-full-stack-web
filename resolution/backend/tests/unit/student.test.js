@@ -3,9 +3,9 @@ const StudentService = require('../../src/app/services/StudentService');
 const { ConflictError } = require('../../src/errors');
 
 function getRandomInt(min = 111111111, max = 999999999 ) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 const dataMock = (newOpts) => {
@@ -49,5 +49,22 @@ describe('Students service', () => {
     await expect(createStudent2).rejects
       .toThrowError(new ConflictError('Duplicate entry `registrationCode`'))
   });
+
+  it('Should retrieve all created students', async () => {
+    const data1 = dataMock({ academicRegister: 123456 });
+    const data2 = dataMock({ academicRegister: 654321 });
+
+    const createdStudent1 = await StudentService.create({ data: data1 })
+    const createdStudent2 = await StudentService.create({ data: data2 })
+
+    const studentsList = await StudentService.getAll()
+
+    expect(studentsList).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(data1),
+        expect.objectContaining(data2)
+      ])
+    );
+  })
 });
 
