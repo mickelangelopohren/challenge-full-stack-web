@@ -72,5 +72,15 @@ describe('Students service', () => {
 
     expect(studentsList).toEqual([])
   });
+
+  it('Should retrieve one students', async () => {
+    const data = dataMock();
+
+    const { id } = await StudentService.create({ data })
+
+    const student = await StudentService.getOne({ id })
+
+    expect(student).toEqual(expect.objectContaining(data));
+  });
 });
 

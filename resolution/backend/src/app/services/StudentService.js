@@ -17,6 +17,10 @@ class StudentService {
   async getAll() {
      return Student.findAll();
   }
+
+  async getOne() {
+    return {};
+  }
 }
 
 module.exports = new StudentService();
