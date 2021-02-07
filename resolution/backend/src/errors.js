@@ -1,3 +1,10 @@
+class BusinessLogicError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "BUSINESS_LOGIC_ERROR";
+  }
+}
+
 class ConflictError extends Error {
   constructor(message) {
     super(message);
@@ -6,6 +13,7 @@ class ConflictError extends Error {
 }
 
 module.exports = {
+  BusinessLogicError,
   ConflictError,
 }
 

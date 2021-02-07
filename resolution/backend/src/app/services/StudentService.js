@@ -8,7 +8,7 @@ class StudentService {
     });
 
     if (alreadyUsedRegistrationCode) {
-      throw new ConflictError('Duplicate entry `academicRegister`');
+      throw new ConflictError("Duplicate entry 'academicRegister'");
     }
 
     return Student.create(data);
@@ -23,6 +23,17 @@ class StudentService {
   }
 
   async update({ id, data }) {
+    const validations = {
+      document: () => { throw new BusinessLogicError("Field 'document' cannot be modified") },
+      academicRegister: () => { throw new BusinessLogicError("Field 'academicRegister' cannot be modified") },
+    };
+
+    Object.keys(validations).forEach((property) => {
+      if (data[property]) {
+        return validations[property]();
+      }
+    });
+
     const update = await Student.findOne({ where: { id } })
       .then(async (student) => {
         if(student) {

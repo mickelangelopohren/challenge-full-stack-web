@@ -45,7 +45,7 @@ describe('Students service', () => {
     const createStudent2 = StudentService.create({ data: data2 });
 
     await expect(createStudent2).rejects
-      .toThrowError(new ConflictError('Duplicate entry `academicRegister`'));
+      .toThrowError(new ConflictError("Duplicate entry 'academicRegister'"));
   });
 
   it('Should retrieve all created students', async () => {
@@ -110,5 +110,28 @@ describe('Students service', () => {
     expect(updatedStudent).toEqual(false);
   });
 
+  it('Should return error when update student`s academicRegister', async () => {
+    const data = dataMock();
+    const updateData = { academicRegister: '123456' };
+
+    const { id } = await StudentService.create({ data });
+
+    const updateStudent = StudentService.update({ id, data: updateData });
+
+    await expect(updateStudent).rejects
+      .toThrowError(new BusinessLogicError("Field 'academicRegister' cannot be modified"));
+  });
+
+  it('Should return error when update student`s document', async () => {
+    const data = dataMock();
+    const updateData = { document: '01928711022' };
+
+    const { id } = await StudentService.create({ data });
+
+    const updateStudent = StudentService.update({ id, data: updateData });
+
+    await expect(updateStudent).rejects
+      .toThrowError(new BusinessLogicError("Field 'document' cannot be modified"));
+  });
 });
 
