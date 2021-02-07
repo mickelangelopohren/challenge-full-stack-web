@@ -65,6 +65,12 @@ describe('Students service', () => {
         expect.objectContaining(data2)
       ])
     );
-  })
+  });
+
+  it('Should retrieve an empty array of students', async () => {
+    const studentsList = await StudentService.getAll()
+
+    expect(studentsList).toEqual([])
+  });
 });
 
