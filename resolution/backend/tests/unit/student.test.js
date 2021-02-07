@@ -12,7 +12,7 @@ const dataMock = (newOpts) => {
   return {
     name: 'Paula Souza',
     email: 'paula.souza@teste.com',
-    academicRegister: getRandomInt(),
+    academicRegister: `${getRandomInt()}`,
     document: '49116966058',
     ...newOpts
   };
@@ -51,8 +51,8 @@ describe('Students service', () => {
   });
 
   it('Should retrieve all created students', async () => {
-    const data1 = dataMock({ academicRegister: 123456 });
-    const data2 = dataMock({ academicRegister: 654321 });
+    const data1 = dataMock({ academicRegister: '123456' });
+    const data2 = dataMock({ academicRegister: '654321' });
 
     const createdStudent1 = await StudentService.create({ data: data1 })
     const createdStudent2 = await StudentService.create({ data: data2 })
