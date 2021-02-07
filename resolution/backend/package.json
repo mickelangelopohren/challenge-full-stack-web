@@ -7,5 +7,8 @@
     "start": "node src/server.js"
   },
   "author": "Mickelangelo Pohren Dos Santos",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
