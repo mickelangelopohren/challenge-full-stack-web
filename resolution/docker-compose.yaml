@@ -8,6 +8,10 @@ services:
     container_name: backend-grupoa
     hostname: backend-grupoa
     environment:
+      DB_HOST: "database"
+      DB_NAME: "db"
+      DB_PASSWORD: "secret"
+      DB_USER: "user"
       NODE_ENV: "development"
       PORT: "3000"
     volumes:
@@ -16,3 +20,20 @@ services:
     ports:
       - "3000:3000"
     command: [ "npm", "run", "dev" ]
+    depends_on:
+      - "database"
+
+  database:
+    image: "mysql:8"
+    container_name: database-grupoa
+    hostname: database-grupoa
+    environment:
+      MYSQL_DATABASE: "db"
+      MYSQL_PASSWORD: "secret"
+      MYSQL_USER: "user"
+      MYSQL_ROOT_PASSWORD: "secret"
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./database:/var/lib/mysql"
+    cap_add: [ SYS_NICE ]
