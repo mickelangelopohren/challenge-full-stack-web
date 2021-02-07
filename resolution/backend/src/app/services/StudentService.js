@@ -15,11 +15,13 @@ class StudentService {
   }
 
   async getAll() {
-     return Student.findAll();
+    return Student.findAll();
   }
 
   async getOne({ id }) {
-    return Student.findOne({ where: { id } });
+    const student = await Student.findOne({ where: { id } });
+
+    return student || false;
   }
 
   async update({ id, data }) {
@@ -42,6 +44,12 @@ class StudentService {
       });
 
     return !!update;
+  }
+
+  async delete({ id }) {
+    const deleted = await Student.destroy({ where: { id } });
+
+    return !!deleted;
   }
 }
 

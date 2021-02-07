@@ -31,9 +31,9 @@ describe('Students service', () => {
 
   it('Should create new student', async () => {
     const data = dataMock();
-    const createdStudent = await StudentService.create({ data });
+    const { id } = await StudentService.create({ data });
 
-    expect(createdStudent?.id).toBeDefined();
+    expect(id).toBeDefined();
   });
 
   it('Should return an error on duplicated academicRegister entry', async () => {
@@ -84,7 +84,7 @@ describe('Students service', () => {
   it('Should return null when retrieve one inexistent student', async () => {
     const student = await StudentService.getOne({ id: 123456789 });
 
-    expect(student).toEqual(null);
+    expect(student).toEqual(false);
   });
 
   it('Should update a student', async () => {
@@ -133,5 +133,23 @@ describe('Students service', () => {
     await expect(updateStudent).rejects
       .toThrowError(new BusinessLogicError("Field 'document' cannot be modified"));
   });
+
+  it('Should delete one student', async () => {
+    const data = dataMock();
+    const { id } = await StudentService.create({ data });
+
+    const deletedStudent = await StudentService.delete({ id })
+
+    expect(deletedStudent).toEqual(true);
+  });
+
+  it('Should delete one student', async () => {
+    const id = 987654321;
+
+    const deletedStudent = await StudentService.delete({ id })
+
+    expect(deletedStudent).toEqual(false);
+  });
+
 });
 
