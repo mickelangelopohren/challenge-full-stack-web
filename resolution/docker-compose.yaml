@@ -5,6 +5,8 @@ services:
     build:
       context: "./backend"
       dockerfile: Dockerfile
+    container_name: backend-grupoa
+    hostname: backend-grupoa
     environment:
       NODE_ENV: "development"
       PORT: "3000"
