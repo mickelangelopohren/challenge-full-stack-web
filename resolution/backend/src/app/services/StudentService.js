@@ -3,7 +3,7 @@ const { Student } = require('../models');
 class StudentService {
   async create({ data }) {
 
-    return { id: 1 };
+    return Student.create(data);
   }
 }
 

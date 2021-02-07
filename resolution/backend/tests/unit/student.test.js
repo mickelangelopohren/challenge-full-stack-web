@@ -5,7 +5,7 @@ const dataMock = (newOpts) => {
   return {
     name: 'Paula Souza',
     email: 'paula.souza@teste.com',
-    registrationCode: '5233812',
+    academicRegister: '5233812',
     document: '49116966058',
     ...newOpts
   };
