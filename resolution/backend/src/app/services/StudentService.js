@@ -18,8 +18,8 @@ class StudentService {
      return Student.findAll();
   }
 
-  async getOne() {
-    return {};
+  async getOne({ id }) {
+    return Student.findOne({ where: { id } });
   }
 }
 

@@ -73,7 +73,7 @@ describe('Students service', () => {
     expect(studentsList).toEqual([])
   });
 
-  it('Should retrieve one students', async () => {
+  it('Should retrieve one student', async () => {
     const data = dataMock();
 
     const { id } = await StudentService.create({ data })
@@ -82,5 +82,12 @@ describe('Students service', () => {
 
     expect(student).toEqual(expect.objectContaining(data));
   });
+
+  it('Should return null when retrieve one inexistent student', async () => {
+    const student = await StudentService.getOne({ id: 123456789 })
+
+    expect(student).toEqual(null);
+  });
+
 });
 
