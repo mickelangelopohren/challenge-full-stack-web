@@ -1,11 +1,18 @@
 const { sequelize } = require('../../src/app/models');
 const StudentService = require('../../src/app/services/StudentService');
+const { ConflictError } = require('../../src/errors');
+
+function getRandomInt(min = 111111111, max = 999999999 ) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const dataMock = (newOpts) => {
   return {
     name: 'Paula Souza',
     email: 'paula.souza@teste.com',
-    academicRegister: '5233812',
+    academicRegister: getRandomInt(),
     document: '49116966058',
     ...newOpts
   };
@@ -32,19 +39,15 @@ describe('Students service', () => {
   });
 
   it('Should return an error on duplicated academicRegister entry', async () => {
-    const data1 = dataMock();
-    const data2 = dataMock({
-      name: 'Marina Miranda',
-      email: 'marina.miranda@teste.com',
-      document: '36508685040'
-    });
+    const data1 = dataMock({ academicRegister: 123456 });
+    const data2 = dataMock({ academicRegister: 123456 });
 
     const createdStudent1 = await StudentService.create({ data: data1 })
-    try {
-    const createdStudent2 = await StudentService.create({ data: data2 })
-    } catch(error) {
-      expect(error).toBeInstanceOf(Error);
-    }
+
+    const createStudent2 = StudentService.create({ data: data2 })
+
+    await expect(createStudent2).rejects
+      .toThrowError(new ConflictError('Duplicate entry `registrationCode`'))
   });
 });
 
