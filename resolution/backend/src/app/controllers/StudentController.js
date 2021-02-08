@@ -13,7 +13,6 @@ class StudentController {
       if(error instanceof ConflictError){
         return res.status(409).send({ message: error.message });
       }
-
       return res.status(500).send();
     }
   }
@@ -29,7 +28,19 @@ class StudentController {
   }
 
   async getOne(req, res) {
-    return res.status(500).send();
+    try {
+      const { params: { studentId: id } } = req;
+
+      const student = await StudentService.getOne({ id });
+
+      if (!student) {
+        return res.status(404).send({ message: 'Student not found' });
+      }
+
+      return res.status(200).send(student);
+    } catch (error) {
+      return res.status(500).send();
+    }
   }
 
   async update(req, res) {
