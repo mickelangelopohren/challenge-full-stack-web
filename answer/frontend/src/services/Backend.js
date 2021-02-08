@@ -2,7 +2,7 @@ import axios from "axios"
 
 const baseUrl = process.env.VUE_APP_API_URL
 
-class TutorialDataService {
+class BackendDataService {
 
   getAll() {
     return axios.get(`${baseUrl}/students`)
@@ -25,4 +25,4 @@ class TutorialDataService {
   }
 }
 
-export default new TutorialDataService()
+export default new BackendDataService()
