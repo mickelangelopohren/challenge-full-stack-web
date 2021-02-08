@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 router.use('/students', require('./StudentRoutes'));
 
-router.get('/status', (req, res) => {
+router.get(['/', '/status'], (req, res) => {
   res.status(200).send({ status: 'UP' });
 });
 

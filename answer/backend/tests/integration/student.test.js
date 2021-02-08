@@ -16,6 +16,14 @@ describe('Students', () => {
 
   it('Should return UP status', async () => {
 
+    const response = await request.get('/').send();
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(expect.objectContaining({ status : 'UP' }));
+  });
+
+  it('Should return UP status on status route', async () => {
+
     const response = await request.get('/status').send();
 
     expect(response.status).toBe(200);
