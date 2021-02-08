@@ -1,11 +1,11 @@
 <template>
-  <div v-if="currentStudent" class="edit-form py-3">
+  <div class="edit-form mt-3 py-3 mx-auto">
     <p class="headline">Edit Student</p>
 
     <v-form ref="form" lazy-validation>
       <v-text-field
         v-model="currentStudent.name"
-        :rules="[(v) => !!v || 'Name is required']"
+        :rules="[(v) => !!v  && !!v.trim() || 'Name is required']"
         label="Name"
         color="accent"
         required
@@ -13,14 +13,14 @@
 
       <v-text-field
         v-model="currentStudent.email"
-        :rules="[(v) => !!v || 'email is required']"
+        :rules="[(v) => !!v  && !!v.trim() || 'Email is required']"
         label="Email"
         color="accent"
         required
       ></v-text-field>
 
       <div class="text-right">
-        <v-btn color="primary" small @click="goTolist" class="mr-2" >
+        <v-btn color="danger" small @click="goTolist" class="mr-2" >
           Cancelar
         </v-btn>
 
@@ -31,10 +31,6 @@
     </v-form>
 
     <p class="mt-3">{{ message }}</p>
-  </div>
-
-  <div v-else>
-    <p>Please click on a Student...</p>
   </div>
 </template>
 
