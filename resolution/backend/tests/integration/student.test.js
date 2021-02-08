@@ -51,12 +51,40 @@ describe('Students', () => {
     expect(response2.status).toBe(409);
   });
 
-  it('Should return 500 status when an unmapped error occurs', async () => {
+  it('Should return 500 status when an unmapped error occurs on create', async () => {
     const data = createStudentData();
 
     jest.spyOn(StudentService, 'create').mockImplementation(() => { throw new Error('Some error') });
 
     const response = await request.post("/students").send(data);
+
+    expect(response.status).toBe(500);
+
+    jest.restoreAllMocks();
+  });
+
+
+  it('Should a list of created students', async () => {
+    const data = createStudentData();
+
+    await request.post("/students").send(data);
+
+    const response = await request.get("/students").send();
+
+    expect(response.status).toBe(200);
+    expect(response.body).toequal(
+      expect.arraycontaining([
+        expect.objectcontaining(data),
+      ])
+    );
+  });
+
+  it('Should return 500 status when an unmapped error occurs on retrieve all', async () => {
+    const data = createStudentData();
+
+    jest.spyOn(StudentService, 'create').mockImplementation(() => { throw new Error('Some error') });
+
+    const response = await request.get("/students").send(data);
 
     expect(response.status).toBe(500);
 
