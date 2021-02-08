@@ -20,9 +20,19 @@ class StudentController {
 
   async getAll(req, res) {
     try {
-      const students = await StudentService.getAll();
+      const offset = parseInt(req.query.offset, 10) || 0;
+      const limit = parseInt(req.query.limit, 10) || 10;
 
-      return res.status(200).send(students);
+      const { count, rows } = await StudentService.getAll({ offset, limit });
+
+      return res.status(200)
+        .header('Access-Control-Expose-Headers',
+          'X-Current-Item-Count, X-Item-Limit, X-Item-Offset, X-Total-Item-Count')
+        .header('X-Current-Item-Count', rows.length)
+        .header('X-Item-Limit', limit)
+        .header('X-Item-Offset', offset)
+        .header('X-Total-Item-Count', count)
+        .send(rows);
     } catch (error) {
       console.log(error);
       return res.status(500).send();
@@ -39,7 +49,12 @@ class StudentController {
         return res.status(404).send({ message: 'Student not found' });
       }
 
-      return res.status(200).send(student);
+      const { updatedAt }  = student;
+      delete student.updatedAt;
+
+      return res.status(200)
+        .header('Last-Modified', updatedAt)
+        .send(student);
     } catch (error) {
       console.log(error);
       return res.status(500).send();

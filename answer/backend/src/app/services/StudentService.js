@@ -14,12 +14,26 @@ class StudentService {
     return Student.create(data);
   }
 
-  async getAll() {
-    return Student.findAll();
+  async getAll({ offset, limit }) {
+    return Student.findAndCountAll({
+      where: {},
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      },
+      raw: true,
+      offset,
+      limit
+    });
   }
 
   async getOne({ id }) {
-    const student = await Student.findOne({ where: { id } });
+    const student = await Student.findOne({
+      where: { id },
+      attributes: {
+        exclude: ['createdAt']
+      },
+      raw: true,
+    });
 
     return student || false;
   }
