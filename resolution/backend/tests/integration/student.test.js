@@ -100,7 +100,7 @@ describe('Students', () => {
     expect(response.body).toEqual(expect.objectContaining(data));
   });
 
-  it('Should return 404 with inexistent student id', async () => {
+  it('Should return 404 with inexistent student id on retrieve one', async () => {
     const id = 999999;
     const response = await request.get(`/students/${id}`).send();
 
@@ -131,7 +131,7 @@ describe('Students', () => {
     expect(response.body).toEqual(expect.objectContaining(updateData));
   });
 
-  it('Should return 404 with inexistent student id', async () => {
+  it('Should return 404 with inexistent student id on update', async () => {
     const id = 999999;
     const data = { name: 'New Name', email: 'new@email.com' };
 
@@ -156,6 +156,35 @@ describe('Students', () => {
     jest.spyOn(StudentService, 'update').mockImplementation(() => { throw new Error('Some error') });
 
     const response = await request.patch(`/students/${id}`).send();
+
+    expect(response.status).toBe(500);
+
+    jest.restoreAllMocks();
+  });
+
+  it('Should return 204 and delete student', async () => {
+    const data = createStudentData();
+
+    const { body: { id } } = await request.post('/students').send(data);
+    const response = await request.delete(`/students/${id}`).send();
+
+    expect(response.status).toBe(204);
+  });
+
+  it('Should return 404 with inexistent student id on delete', async () => {
+    const id = 999000;
+
+    const response = await request.delete(`/students/${id}`).send();
+
+    expect(response.status).toBe(404);
+  });
+
+  it('Should return 500 status when an unmapped error occurs on update', async () => {
+    const id = 123456;
+
+    jest.spyOn(StudentService, 'update').mockImplementation(() => { throw new Error('Some error') });
+
+    const response = await request.delete(`/students/${id}`).send();
 
     expect(response.status).toBe(500);
 
