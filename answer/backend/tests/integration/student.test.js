@@ -52,6 +52,14 @@ describe('Students', () => {
     expect(response2.status).toBe(409);
   });
 
+  it('Should return 422 when pass wrong student properties on create', async () => {
+    const data = { someProperty: 'someValue' };
+
+    const response = await request.post('/students').send(data);
+
+    expect(response.status).toBe(422);
+  });
+
   it('Should return 500 status when an unmapped error occurs on create', async () => {
     const data = createStudentData();
 
@@ -172,6 +180,16 @@ describe('Students', () => {
     const response = await request.delete(`/students/${id}`).send();
 
     expect(response.status).toBe(404);
+  });
+
+  it('Should return 422 when pass wrong student properties on update', async () => {
+    const data = createStudentData();
+    const updateData = { someProperty: 'someValue' };
+
+    const { body: { id } } = await request.post('/students').send(data);
+    const response = await request.patch(`/students/${id}`).send(data);
+
+    expect(response.status).toBe(422);
   });
 
   it('Should return 500 status when an unmapped error occurs on remove', async () => {
