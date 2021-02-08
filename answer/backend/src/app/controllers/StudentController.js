@@ -13,6 +13,7 @@ class StudentController {
       if(error instanceof ConflictError){
         return res.status(409).send({ message: error.message });
       }
+      console.log(error);
       return res.status(500).send();
     }
   }
@@ -23,6 +24,7 @@ class StudentController {
 
       return res.status(200).send(students);
     } catch (error) {
+      console.log(error);
       return res.status(500).send();
     }
   }
@@ -39,6 +41,7 @@ class StudentController {
 
       return res.status(200).send(student);
     } catch (error) {
+      console.log(error);
       return res.status(500).send();
     }
   }
@@ -58,6 +61,7 @@ class StudentController {
       if(error instanceof BusinessLogicError){
         return res.status(422).send([{ message: error.message }]);
       }
+      console.log(error);
       return res.status(500).send();
     }
   }
@@ -74,6 +78,7 @@ class StudentController {
 
       return res.status(204).send();
     } catch (error) {
+      console.log(error);
       return res.status(500).send();
     }
   }
