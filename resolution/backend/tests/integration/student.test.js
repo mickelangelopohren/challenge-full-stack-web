@@ -162,7 +162,7 @@ describe('Students', () => {
     jest.restoreAllMocks();
   });
 
-  it('Should return 204 and delete student', async () => {
+  it('Should return 204 and remove student', async () => {
     const data = createStudentData();
 
     const { body: { id } } = await request.post('/students').send(data);
@@ -171,7 +171,7 @@ describe('Students', () => {
     expect(response.status).toBe(204);
   });
 
-  it('Should return 404 with inexistent student id on delete', async () => {
+  it('Should return 404 with inexistent student id on remove', async () => {
     const id = 999000;
 
     const response = await request.delete(`/students/${id}`).send();
@@ -179,10 +179,10 @@ describe('Students', () => {
     expect(response.status).toBe(404);
   });
 
-  it('Should return 500 status when an unmapped error occurs on update', async () => {
+  it('Should return 500 status when an unmapped error occurs on remove', async () => {
     const id = 123456;
 
-    jest.spyOn(StudentService, 'update').mockImplementation(() => { throw new Error('Some error') });
+    jest.spyOn(StudentService, 'remove').mockImplementation(() => { throw new Error('Some error') });
 
     const response = await request.delete(`/students/${id}`).send();
 

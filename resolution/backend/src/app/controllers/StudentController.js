@@ -63,7 +63,19 @@ class StudentController {
   }
 
   async remove(req, res) {
+    try {
+      const { params: { studentId: id } } = req;
+
+      const deleted = await StudentService.remove({ id });
+
+      if (!deleted) {
+        return res.status(404).send({ message: 'Student not found' });
+      }
+
+      return res.status(204).send();
+    } catch (error) {
       return res.status(500).send();
+    }
   }
 }
 

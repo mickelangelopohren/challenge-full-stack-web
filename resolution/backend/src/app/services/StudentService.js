@@ -46,7 +46,7 @@ class StudentService {
     return !!update;
   }
 
-  async delete({ id }) {
+  async remove({ id }) {
     const deleted = await Student.destroy({ where: { id } });
 
     return !!deleted;

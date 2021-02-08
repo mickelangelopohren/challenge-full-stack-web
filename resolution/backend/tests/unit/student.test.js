@@ -121,7 +121,7 @@ describe('Students service', () => {
     const data = createStudentData();
     const { id } = await StudentService.create({ data });
 
-    const deletedStudent = await StudentService.delete({ id })
+    const deletedStudent = await StudentService.remove({ id })
 
     expect(deletedStudent).toEqual(true);
   });
@@ -129,7 +129,7 @@ describe('Students service', () => {
   it('Should delete one student', async () => {
     const id = 987654321;
 
-    const deletedStudent = await StudentService.delete({ id })
+    const deletedStudent = await StudentService.remove({ id })
 
     expect(deletedStudent).toEqual(false);
   });
