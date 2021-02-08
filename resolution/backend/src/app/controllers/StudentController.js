@@ -19,7 +19,13 @@ class StudentController {
   }
 
   async getAll(req, res) {
+    try {
+      const students = await StudentService.getAll();
+
+      return res.status(200).send(students);
+    } catch (error) {
       return res.status(500).send();
+    }
   }
 
   async getOne(req, res) {

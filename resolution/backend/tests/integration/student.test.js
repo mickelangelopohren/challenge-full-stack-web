@@ -72,9 +72,9 @@ describe('Students', () => {
     const response = await request.get("/students").send();
 
     expect(response.status).toBe(200);
-    expect(response.body).toequal(
-      expect.arraycontaining([
-        expect.objectcontaining(data),
+    expect(response.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(data),
       ])
     );
   });
@@ -82,7 +82,7 @@ describe('Students', () => {
   it('Should return 500 status when an unmapped error occurs on retrieve all', async () => {
     const data = createStudentData();
 
-    jest.spyOn(StudentService, 'create').mockImplementation(() => { throw new Error('Some error') });
+    jest.spyOn(StudentService, 'getAll').mockImplementation(() => { throw new Error('Some error') });
 
     const response = await request.get("/students").send(data);
 
