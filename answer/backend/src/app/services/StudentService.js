@@ -31,18 +31,12 @@ class StudentService {
     };
 
     Object.keys(validations).forEach((property) => {
-      if (data[property]) {
-        return validations[property]();
-      }
-      return false;
+      return data[property] && validations[property]();
     });
 
     const update = await Student.findOne({ where: { id } })
       .then(async (student) => {
-        if (student) {
-          return student.update(data);
-        }
-        return false;
+        return student && student.update(data);
       });
 
     return !!update;
