@@ -90,7 +90,6 @@ describe('Students', () => {
     jest.restoreAllMocks();
   });
 
-
   it('Should return 200 and one student data', async () => {
     const data = createStudentData();
 
@@ -108,7 +107,7 @@ describe('Students', () => {
     expect(response.status).toBe(404);
   });
 
-  it('Should return 500 status when an unmapped error occurs on create', async () => {
+  it('Should return 500 status when an unmapped error occurs on retrieve one', async () => {
     const id = 123456;
 
     jest.spyOn(StudentService, 'getOne').mockImplementation(() => { throw new Error('Some error') });
@@ -120,5 +119,46 @@ describe('Students', () => {
     jest.restoreAllMocks();
   });
 
+  it('Should return 204 and update student data', async () => {
+    const data = createStudentData();
+    const updateData = { name: 'New Name', email: 'new@email.com' };
+
+    const { body: { id } } = await request.post('/students').send(data);
+    const { status } = await request.patch(`/students/${id}`).send(updateData);
+    const response = await request.get(`/students/${id}`).send();
+
+    expect(status).toBe(200);
+    expect(response.body).toEqual(expect.objectContaining(updateData));
+  });
+
+  it('Should return 404 with inexistent student id', async () => {
+    const id = 999999;
+    const data = createStudentData();
+
+    const response = await request.patch(`/students/${id}`).send(data);
+
+    expect(response.status).toBe(404);
+  });
+
+  it('Should return 422 when try to update academicRegister', async () => {
+    const data = createStudentData();
+    const updateData = { name: 'New Name', email: 'new@email.com', academicRegister: '123456' };
+
+    const response = await request.patch(`/students/${id}`).send(updateData);
+
+    expect(response.status).toBe(422);
+  });
+
+  it('Should return 500 status when an unmapped error occurs on update', async () => {
+    const id = 123456;
+
+    jest.spyOn(StudentService, 'getOne').mockImplementation(() => { throw new Error('Some error') });
+
+    const response = await request.patch(`/students/${id}`).send();
+
+    expect(response.status).toBe(500);
+
+    jest.restoreAllMocks();
+  });
 });
 

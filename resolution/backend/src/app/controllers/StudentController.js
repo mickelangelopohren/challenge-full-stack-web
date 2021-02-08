@@ -44,6 +44,7 @@ class StudentController {
   }
 
   async update(req, res) {
+      return res.status(500).send();
   }
 
   async remove(req, res) {
