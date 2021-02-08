@@ -29,6 +29,7 @@ class StudentController {
   }
 
   async getOne(req, res) {
+    return res.status(500).send();
   }
 
   async update(req, res) {

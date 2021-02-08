@@ -15,7 +15,7 @@ describe('Students', () => {
 
   it('Should return UP status', async () => {
 
-    const response = await request.get("/status").send();
+    const response = await request.get('/status').send();
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expect.objectContaining({ status : 'UP' }));
@@ -24,9 +24,9 @@ describe('Students', () => {
   it('Should return 404 when request to not defined route', async () => {
     const data = createStudentData();
 
-    const response1 = await request.get("/someroute/123").send();
+    const response1 = await request.get('/someroute/123').send();
 
-    const response2 = await request.post("/someroute").send({ foo: 'bar'});
+    const response2 = await request.post('/someroute').send({ foo: 'bar'});
 
     expect(response1.status).toBe(404);
     expect(response2.status).toBe(404);
@@ -35,7 +35,7 @@ describe('Students', () => {
   it('Should create a student and return 201 and id', async () => {
     const data = createStudentData();
 
-    const response = await request.post("/students").send(data);
+    const response = await request.post('/students').send(data);
 
     expect(response.status).toBe(201);
     expect(response.body.id).toBeDefined();
@@ -45,8 +45,8 @@ describe('Students', () => {
     const data1 = createStudentData({ academicRegister: '123123' });
     const data2 = createStudentData({ academicRegister: '123123' });
 
-    const response1 = await request.post("/students").send(data1);
-    const response2 = await request.post("/students").send(data2);
+    const response1 = await request.post('/students').send(data1);
+    const response2 = await request.post('/students').send(data2);
 
     expect(response2.status).toBe(409);
   });
@@ -56,20 +56,19 @@ describe('Students', () => {
 
     jest.spyOn(StudentService, 'create').mockImplementation(() => { throw new Error('Some error') });
 
-    const response = await request.post("/students").send(data);
+    const response = await request.post('/students').send(data);
 
     expect(response.status).toBe(500);
 
     jest.restoreAllMocks();
   });
 
-
   it('Should a list of created students', async () => {
     const data = createStudentData();
 
-    await request.post("/students").send(data);
+    await request.post('/students').send(data);
 
-    const response = await request.get("/students").send();
+    const response = await request.get('/students').send();
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(
@@ -84,11 +83,42 @@ describe('Students', () => {
 
     jest.spyOn(StudentService, 'getAll').mockImplementation(() => { throw new Error('Some error') });
 
-    const response = await request.get("/students").send(data);
+    const response = await request.get('/students').send(data);
 
     expect(response.status).toBe(500);
 
     jest.restoreAllMocks();
   });
+
+
+  it('Should return 200 and one student data', async () => {
+    const data = createStudentData();
+
+    const { body: { id } } = await request.post('/students').send(data);
+    const response = await request.get(`/students/${id}`).send();
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(expect.objectContaining(data));
+  });
+
+  it('Should return 404 with inexistent student id', async () => {
+    const id = 999999;
+    const response = await request.get(`/students/${id}`).send();
+
+    expect(response.status).toBe(404);
+  });
+
+  it('Should return 500 status when an unmapped error occurs on create', async () => {
+    const id = 123456;
+
+    jest.spyOn(StudentService, 'getOne').mockImplementation(() => { throw new Error('Some error') });
+
+    const response = await request.get(`/students/${id}`).send();
+
+    expect(response.status).toBe(500);
+
+    jest.restoreAllMocks();
+  });
+
 });
 
