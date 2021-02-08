@@ -2,6 +2,8 @@ const StudentService = require('../../src/app/services/StudentService');
 const { BusinessLogicError, ConflictError } = require('../../src/errors');
 const { clearDatabase, syncDatabase } = require('../helpers/db');
 const { createStudentData } = require('../helpers/data');
+const { Joi } = require('express-validation');
+const { createValidation, updateValidation } = require('../../src/app/schema/StudentSchema');
 
 describe('Students service', () => {
   beforeAll(async () => {
@@ -133,6 +135,9 @@ describe('Students service', () => {
 
     expect(deletedStudent).toEqual(false);
   });
+});
 
+describe('Students schema', () => {
+  
 });
 
