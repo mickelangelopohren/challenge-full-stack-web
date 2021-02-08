@@ -38,9 +38,12 @@ describe('Students service', () => {
     const createdStudent1 = await StudentService.create({ data: data1 });
     const createdStudent2 = await StudentService.create({ data: data2 });
 
-    const studentsList = await StudentService.getAll();
+    const offset = 0;
+    const limit = 10;
+    const studentsList = await StudentService.getAll({ offset, limit });
 
-    expect(studentsList).toEqual(
+    expect(studentsList.count).toBeDefined();
+    expect(studentsList.rows).toEqual(
       expect.arrayContaining([
         expect.objectContaining(data1),
         expect.objectContaining(data2)
@@ -49,9 +52,11 @@ describe('Students service', () => {
   });
 
   it('Should retrieve an empty array of students', async () => {
-    const studentsList = await StudentService.getAll();
+    const offset = 0;
+    const limit = 10;
+    const studentsList = await StudentService.getAll({ offset, limit });
 
-    expect(studentsList).toEqual([]);
+    expect(studentsList).toEqual({"count": 0, "rows": []});
   });
 
   it('Should retrieve one student', async () => {
