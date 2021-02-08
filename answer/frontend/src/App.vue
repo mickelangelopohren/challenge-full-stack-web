@@ -21,19 +21,17 @@
     </v-app-bar>
 
     <v-main>
-      <StudentsList/>
+       <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import StudentsList from './components/StudentsList';
 
 export default {
   name: 'App',
 
   components: {
-    StudentsList,
   },
 
   data: () => ({
