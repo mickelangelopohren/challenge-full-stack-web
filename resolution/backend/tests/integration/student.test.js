@@ -127,13 +127,13 @@ describe('Students', () => {
     const { status } = await request.patch(`/students/${id}`).send(updateData);
     const response = await request.get(`/students/${id}`).send();
 
-    expect(status).toBe(200);
+    expect(status).toBe(204);
     expect(response.body).toEqual(expect.objectContaining(updateData));
   });
 
   it('Should return 404 with inexistent student id', async () => {
     const id = 999999;
-    const data = createStudentData();
+    const data = { name: 'New Name', email: 'new@email.com' };
 
     const response = await request.patch(`/students/${id}`).send(data);
 
@@ -144,6 +144,7 @@ describe('Students', () => {
     const data = createStudentData();
     const updateData = { name: 'New Name', email: 'new@email.com', academicRegister: '123456' };
 
+    const { body: { id } } = await request.post('/students').send(data);
     const response = await request.patch(`/students/${id}`).send(updateData);
 
     expect(response.status).toBe(422);
@@ -152,7 +153,7 @@ describe('Students', () => {
   it('Should return 500 status when an unmapped error occurs on update', async () => {
     const id = 123456;
 
-    jest.spyOn(StudentService, 'getOne').mockImplementation(() => { throw new Error('Some error') });
+    jest.spyOn(StudentService, 'update').mockImplementation(() => { throw new Error('Some error') });
 
     const response = await request.patch(`/students/${id}`).send();
 

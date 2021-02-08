@@ -44,7 +44,22 @@ class StudentController {
   }
 
   async update(req, res) {
+    try {
+      const { params: { studentId: id }, body: data } = req;
+
+      const updated =  await StudentService.update({ id, data });
+
+      if (!updated) {
+        return res.status(404).send({ message: 'Student not found' });
+      }
+
+      return res.status(204).send();
+    } catch(error) {
+      if(error instanceof BusinessLogicError){
+        return res.status(422).send([{ message: error.message }]);
+      }
       return res.status(500).send();
+    }
   }
 
   async remove(req, res) {
