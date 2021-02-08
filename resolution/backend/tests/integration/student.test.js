@@ -42,8 +42,8 @@ describe('Students', () => {
   });
 
   it('Should return 409 status on duplicatede academicRegister', async () => {
-    const data1 = createStudentData();
-    const data2 = createStudentData();
+    const data1 = createStudentData({ academicRegister: '123123' });
+    const data2 = createStudentData({ academicRegister: '123123' });
 
     const response1 = await request.post("/students").send(data1);
     const response2 = await request.post("/students").send(data2);
@@ -51,14 +51,14 @@ describe('Students', () => {
     expect(response2.status).toBe(409);
   });
 
-  it('Should return error', async () => {
+  it('Should return 500 status when an unmapped error occurs', async () => {
     const data = createStudentData();
 
-    jest.spyOn(StudentService, 'create').mockImplementation(() => new Error('Some error'));
+    jest.spyOn(StudentService, 'create').mockImplementation(() => { throw new Error('Some error') });
 
     const response = await request.post("/students").send(data);
 
-    expect(response.status).toBe(409);
+    expect(response.status).toBe(500);
 
     jest.restoreAllMocks();
   });

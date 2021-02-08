@@ -1,8 +1,21 @@
 const StudentService = require('../services/StudentService');
+const { ConflictError, BusinessLogicError } = require('../../errors');
 
 class StudentController {
   async create(req, res) {
-    return res.status(201).send({ id: 123 });
+    try {
+      const { body: data } = req;
+
+      const { id } = await StudentService.create({ data });
+
+      return res.status(201).send({ id });
+    } catch(error) {
+      if(error instanceof ConflictError){
+        return res.status(409).send({ message: error.message });
+      }
+
+      return res.status(500).send();
+    }
   }
 
   async getAll(req, res) {
