@@ -18,11 +18,11 @@ class StudentService {
     return Student.findAndCountAll({
       where: {},
       attributes: {
-        exclude: ['createdAt', 'updatedAt']
+        exclude: ['createdAt', 'updatedAt'],
       },
       raw: true,
       offset,
-      limit
+      limit,
     });
   }
 
@@ -30,7 +30,7 @@ class StudentService {
     const student = await Student.findOne({
       where: { id },
       attributes: {
-        exclude: ['createdAt']
+        exclude: ['createdAt'],
       },
       raw: true,
     });

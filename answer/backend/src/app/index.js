@@ -9,7 +9,8 @@ app.use(express.json());
 
 app.use(require('./routes'));
 
-app.use((err, req, res) => {
+// eslint-disable-next-line
+app.use((err, req, res, next) => {
   if (err instanceof ValidationError) {
     return res.status(err.statusCode).send(err);
   }

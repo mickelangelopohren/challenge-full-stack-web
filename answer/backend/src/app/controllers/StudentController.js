@@ -49,7 +49,7 @@ class StudentController {
         return res.status(404).send({ message: 'Student not found' });
       }
 
-      const { updatedAt }  = student;
+      const { updatedAt } = student;
       delete student.updatedAt;
 
       return res.status(200)
