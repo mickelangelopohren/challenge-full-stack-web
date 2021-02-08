@@ -1,44 +1,27 @@
-const { sequelize } = require('../../src/app/models');
 const StudentService = require('../../src/app/services/StudentService');
 const { BusinessLogicError, ConflictError } = require('../../src/errors');
-
-const getRandomInt = (min = 111111111, max = 999999999 ) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-const dataMock = (newOpts) => ({
-  name: 'Paula Souza',
-  email: 'paula.souza@teste.com',
-  academicRegister: `${getRandomInt()}`,
-  document: '49116966058',
-  ...newOpts
-});
+const { clearDatabase, syncDatabase } = require('../helpers/db');
+const { createStudentData } = require('../helpers/data');
 
 describe('Students service', () => {
   beforeAll(async () => {
-    await sequelize.sync({ force: true });
+    await syncDatabase();
   });
 
   beforeEach(async () => {
-    await Promise.all(
-      Object.values(sequelize.models).map(function(model) {
-        return model.destroy({ truncate: true, force: true });
-      })
-    );
+    await clearDatabase();
   });
 
   it('Should create new student', async () => {
-    const data = dataMock();
+    const data = createStudentData();
     const { id } = await StudentService.create({ data });
 
     expect(id).toBeDefined();
   });
 
   it('Should return an error on duplicated academicRegister entry', async () => {
-    const data1 = dataMock({ academicRegister: 123456 });
-    const data2 = dataMock({ academicRegister: 123456 });
+    const data1 = createStudentData({ academicRegister: 123456 });
+    const data2 = createStudentData({ academicRegister: 123456 });
 
     const createdStudent1 = await StudentService.create({ data: data1 });
 
@@ -49,8 +32,8 @@ describe('Students service', () => {
   });
 
   it('Should retrieve all created students', async () => {
-    const data1 = dataMock({ academicRegister: '123456' });
-    const data2 = dataMock({ academicRegister: '654321' });
+    const data1 = createStudentData({ academicRegister: '123456' });
+    const data2 = createStudentData({ academicRegister: '654321' });
 
     const createdStudent1 = await StudentService.create({ data: data1 });
     const createdStudent2 = await StudentService.create({ data: data2 });
@@ -72,7 +55,7 @@ describe('Students service', () => {
   });
 
   it('Should retrieve one student', async () => {
-    const data = dataMock();
+    const data = createStudentData();
 
     const { id } = await StudentService.create({ data });
 
@@ -88,7 +71,7 @@ describe('Students service', () => {
   });
 
   it('Should update a student', async () => {
-    const data = dataMock();
+    const data = createStudentData();
     const updateData = { name: 'New Name', email: 'new@email.com'  };
 
     const { id } = await StudentService.create({ data });
@@ -111,7 +94,7 @@ describe('Students service', () => {
   });
 
   it('Should return error when update student`s academicRegister', async () => {
-    const data = dataMock();
+    const data = createStudentData();
     const updateData = { academicRegister: '123456' };
 
     const { id } = await StudentService.create({ data });
@@ -123,7 +106,7 @@ describe('Students service', () => {
   });
 
   it('Should return error when update student`s document', async () => {
-    const data = dataMock();
+    const data = createStudentData();
     const updateData = { document: '01928711022' };
 
     const { id } = await StudentService.create({ data });
@@ -135,7 +118,7 @@ describe('Students service', () => {
   });
 
   it('Should delete one student', async () => {
-    const data = dataMock();
+    const data = createStudentData();
     const { id } = await StudentService.create({ data });
 
     const deletedStudent = await StudentService.delete({ id })
