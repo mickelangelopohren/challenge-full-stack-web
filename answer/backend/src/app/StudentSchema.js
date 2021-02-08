@@ -1,4 +1,4 @@
-const { Joi } = require('express-validation')
+const { Joi } = require('express-validation');
 
 const paramsValidation = {
   params: Joi.object({
@@ -27,5 +27,4 @@ const updateValidation = {
 module.exports = {
   createValidation,
   updateValidation,
-}
-
+};

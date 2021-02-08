@@ -22,15 +22,14 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      indexes:[
+      indexes: [
         {
           unique: true,
-          fields:['academic_register']
-        }
-      ]
-    }
+          fields: ['academic_register'],
+        },
+      ],
+    },
   );
 
   return Student;
 };
-

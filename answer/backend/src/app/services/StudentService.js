@@ -4,7 +4,7 @@ const { BusinessLogicError, ConflictError } = require('../../errors');
 class StudentService {
   async create({ data }) {
     const alreadyUsedRegistrationCode = await Student.findOne({
-      where: { academicRegister: data.academicRegister }
+      where: { academicRegister: data.academicRegister },
     });
 
     if (alreadyUsedRegistrationCode) {
@@ -26,21 +26,23 @@ class StudentService {
 
   async update({ id, data }) {
     const validations = {
-      document: () => { throw new BusinessLogicError("Field 'document' cannot be modified") },
-      academicRegister: () => { throw new BusinessLogicError("Field 'academicRegister' cannot be modified") },
+      document: () => { throw new BusinessLogicError("Field 'document' cannot be modified"); },
+      academicRegister: () => { throw new BusinessLogicError("Field 'academicRegister' cannot be modified"); },
     };
 
     Object.keys(validations).forEach((property) => {
       if (data[property]) {
         return validations[property]();
       }
+      return false;
     });
 
     const update = await Student.findOne({ where: { id } })
       .then(async (student) => {
-        if(student) {
-          return student.update(data)
+        if (student) {
+          return student.update(data);
         }
+        return false;
       });
 
     return !!update;
@@ -54,4 +56,3 @@ class StudentService {
 }
 
 module.exports = new StudentService();
-

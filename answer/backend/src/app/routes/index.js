@@ -11,4 +11,3 @@ router.all('*', (req, res) => {
 });
 
 module.exports = router;
-

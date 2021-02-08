@@ -1,6 +1,6 @@
 const router = require('express').Router({ mergeParams: true });
+const { validate } = require('express-validation');
 const StudentController = require('../controllers/StudentController');
-const { validate } = require('express-validation')
 const validatorConfig = require('../config/schemaValidator');
 const { createValidation, updateValidation } = require('../schemas/StudentSchema');
 
@@ -32,4 +32,3 @@ router.delete(
 );
 
 module.exports = router;
-

@@ -1,7 +1,6 @@
 const validatorConfig = [
   { statusCode: 422 },
-  { abortEarly: false }
+  { abortEarly: false },
 ];
 
 module.exports = validatorConfig;
-

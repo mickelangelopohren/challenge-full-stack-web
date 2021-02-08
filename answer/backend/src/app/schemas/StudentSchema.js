@@ -27,5 +27,4 @@ const updateValidation = {
 module.exports = {
   createValidation,
   updateValidation,
-}
-
+};

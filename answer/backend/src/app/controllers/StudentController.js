@@ -9,8 +9,8 @@ class StudentController {
       const { id } = await StudentService.create({ data });
 
       return res.status(201).send({ id });
-    } catch(error) {
-      if(error instanceof ConflictError){
+    } catch (error) {
+      if (error instanceof ConflictError) {
         return res.status(409).send({ message: error.message });
       }
       console.log(error);
@@ -50,15 +50,15 @@ class StudentController {
     try {
       const { params: { studentId: id }, body: data } = req;
 
-      const updated =  await StudentService.update({ id, data });
+      const updated = await StudentService.update({ id, data });
 
       if (!updated) {
         return res.status(404).send({ message: 'Student not found' });
       }
 
       return res.status(204).send();
-    } catch(error) {
-      if(error instanceof BusinessLogicError){
+    } catch (error) {
+      if (error instanceof BusinessLogicError) {
         return res.status(422).send([{ message: error.message }]);
       }
       console.log(error);
@@ -85,4 +85,3 @@ class StudentController {
 }
 
 module.exports = new StudentController();
-
