@@ -9,7 +9,8 @@
         label="Name"
         color="accent"
         required
-      ></v-text-field>
+        >
+      </v-text-field>
 
       <v-text-field
         v-model="currentStudent.email"
@@ -17,16 +18,35 @@
         label="Email"
         color="accent"
         required
-      ></v-text-field>
+        >
+      </v-text-field>
+
+      <v-text-field
+        v-model="currentStudent.academicRegister"
+        :rules="[(v) => !!v && !!v.trim() || 'Academic Register is required']"
+        label="Academic Register"
+        color="accent"
+        disabled
+        >
+      </v-text-field>
+
+      <v-text-field
+        v-model="currentStudent.document"
+        :rules="[(v) => !!v && !!v.trim() || 'Document is required']"
+        label="Document"
+        color="accent"
+        disabled
+        >
+      </v-text-field>
 
       <div class="text-right">
         <v-btn color="danger" small @click="goTolist" class="mr-2" >
           Cancelar
         </v-btn>
 
-        <v-btn color="success" small @click="updateStudent">
-          Salvar
-        </v-btn>
+          <v-btn color="success" small @click="updateStudent">
+            Salvar
+          </v-btn>
       </div>
     </v-form>
 
@@ -49,15 +69,15 @@ export default {
     getStudent(id) {
       Backend.getOne(id)
         .then(({ data }) => {
-          const { name, email } = data
-          this.currentStudent = { name, email }
+          this.currentStudent = data
         })
         .catch((e) => {
           console.log(e)
         })
     },
     updateStudent() {
-      Backend.update(this.$route.params.id, this.currentStudent)
+      const { name, email } = this.currentStudent;
+      Backend.update(this.$route.params.id, { name, email })
         .then(() => {
           this.goTolist()
         })
