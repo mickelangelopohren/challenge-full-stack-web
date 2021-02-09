@@ -6,22 +6,20 @@ const paramsValidation = {
   }),
 };
 
-const common = {
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-};
-
-const body = Joi.object({
-  ...common,
-  academicRegister: Joi.string().required(),
-  document: Joi.string().length(11).required(),
-});
-
-const createValidation = { body };
+const createValidation = {
+  body: Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+    academicRegister: Joi.string().required(),
+    document: Joi.string().length(11).required(),
+  })};
 
 const updateValidation = {
   ...paramsValidation,
-  body: Joi.object(common),
+  body: Joi.object({
+    name: Joi.string(),
+    email: Joi.string().email(),
+  }).min(1),
 };
 
 module.exports = {
