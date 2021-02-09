@@ -4,7 +4,7 @@
 Sistema para gerenciamento de alunos para a prova da Grupo A, utilizando Docker, Node com Express, Vue com Vuetify e banco de dados Mysql.
 
 ### Instalação
-Este é um projeto em node e vue utilizando docker, para conseguir utilizar esta aplicação para desenvolvimento e testes, você precisará ter instalado em sua máquina, os requisitos abaixo:
+Para conseguir utilizar esta aplicação para desenvolvimento e testes, você precisará ter instalado em sua máquina, os requisitos abaixo:
 
 | Plugin | README |
 | ------ | ------ |
@@ -17,11 +17,11 @@ Após concluída a instalação do itens acima clone o repositório:
 $ git clone https://github.com/mickelangelopohren/challenge-full-stack-web
 $ cd challenge-full-stack-web
 ```
-**Os comando docker devem ser executados a partir da pasta ‘answer’:**
+**Os comandos docker devem ser executados a partir da pasta ‘answer’:**
 ```sh
 $ cd answer
 ```
-Para subir a aplicação, dentro da pasta 'answer' utilize o comandos:
+Para subir a aplicação, dentro da pasta 'answer' utilize o comando:
 ```sh
 $ docker-compose up -d 
 ```
@@ -33,7 +33,7 @@ Realizando testes do backend
 ```sh
 $ docker exec -it backend-grupoa npm run test
 ```
-Accessando no navegador
+Acessando no navegador
 | Backend | Frontend |
 | ------ | ------ |
 | localhost:3000 | localhost:8080 |
