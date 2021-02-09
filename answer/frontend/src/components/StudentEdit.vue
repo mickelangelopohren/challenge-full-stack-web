@@ -61,7 +61,7 @@ export default {
   name: "student",
   data() {
     return {
-      currentStudent: null,
+      currentStudent: {},
       message: "",
     }
   },
@@ -76,7 +76,11 @@ export default {
         })
     },
     updateStudent() {
-      const { name, email } = this.currentStudent;
+      const name = this.currentStudent?.name;
+      const email = this.currentStudent?.email;
+      if (!name || !email) {
+        return
+      }
       Backend.update(this.$route.params.id, { name, email })
         .then(() => {
           this.goTolist()
