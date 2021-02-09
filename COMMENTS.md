@@ -77,7 +77,7 @@ Acessando no navegador
 - Paginação na listagem de alunos no frontend
 - Aprimorar testes no backend
 - Mensagens no frontend com sucessos e erros
+- Teste unitarios no Frontend
 
 #### Requisitos não atendidos
 - Gerenciamento de alunos permitido apenas para usuários administrativos
-- Teste unitarios no Frontend
