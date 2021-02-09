@@ -1,10 +1,7 @@
 <template>
   <v-row align="center" class="list px-3 mx-auto">
-    <v-col cols="12" md="8">
-      <v-text-field v-model="title" label="Consulta de Alunos"></v-text-field>
-    </v-col>
 
-    <v-col cols="12" sm="12">
+    <v-col cols="12 mt-4" sm="12" >
       <v-card class="mx-auto" tile>
 
         <v-card-title>
@@ -31,6 +28,7 @@
           :headers="headers"
           :items="students"
           :search="search"
+          hide-default-footer
           >
           <template v-slot:[`item.actions`]="{ item }">
             <v-icon small class="mr-2" @click="editStudent(item.id)">mdi-pencil</v-icon>
