@@ -79,8 +79,9 @@ Accessando no navegador
 - Mensagens no frontend com sucessos e erros
 
 #### Requisitos obrigatórios que não foram entregues
--  Gerenciamento de alunos apenas para usuários administrativos
--  Modal de confirmação para excluir aluno
+- Gerenciamento de alunos apenas para usuários administrativos
+- Modal de confirmação para excluir aluno
+- Teste unitarios no Frontend
 
 ### Licença
 MIT
